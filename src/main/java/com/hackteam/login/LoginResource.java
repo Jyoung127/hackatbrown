@@ -23,11 +23,13 @@ public class LoginResource {
 	@GET
 	@Path("/auth")
 	public Response authorize(@Context UriInfo rawCode) {
-		String code = rawCode.getRequestUri().getQuery().substring(5);
-		System.out.println(code);
+		String queryStr = rawCode.getRequestUri().getQuery().substring(5);
+		String code = queryStr.split("&")[0];
 		java.net.URI location = null;
 		try {
+			(new LoginService()).addSongs(code);
 			location = new java.net.URI("/" + code);
+			
 			return Response.temporaryRedirect(location).build();
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block

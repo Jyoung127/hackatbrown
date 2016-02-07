@@ -53,6 +53,11 @@
 		  <artifactId>spotify-web-api-java</artifactId>
 		  <version>1.5.0</version>
 		</dependency>
+		<dependency>
+	        <groupId>org.mongodb</groupId>
+	        <artifactId>mongo-java-driver</artifactId>
+	        <version>3.0.4</version>
+	    </dependency>
     </dependencies>
     <properties>
         <jersey.version>2.16</jersey.version>
