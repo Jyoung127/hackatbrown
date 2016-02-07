@@ -16,20 +16,24 @@ public class DBClient {
 	MongoClient mongoClient = new MongoClient(uri);
 	MongoDatabase db = mongoClient.getDatabase(uri.getDatabase());
 	
-	private Document getData() {
-		BasicDBObject user = new BasicDBObject();
-		BasicDBObject userData = new BasicDBObject();
-		BasicDBObject songList = new BasicDBObject();
-		
-		
-		userData.put("song1", 1);
-		
-		//user.put(arg0, arg1)
-		return null;
+	private Document encodeSong(Song s) {
+		return new Document("songname", s.getSongName())
+				.append("songid", s.getSongName());
 	}
 	
-	public void addToDB(ArrayList<Song> alos) {
-		Document data = getData();
+	private Document getData(ArrayList<Song> alos, String userID) {
+		ArrayList<Document> songDocList = new ArrayList<Document>();
+		for (Song song : alos) {
+			songDocList.add(encodeSong(song));
+		}
+		Document toReturn = new Document("user", userID)
+				.append("songs", songDocList);
+		
+		return toReturn;
+	}
+	
+	public void addToDB(ArrayList<Song> alos, String userID) {
+		Document data = getData(alos, userID);
 		db.getCollection("users").insertOne(data);
 	}
 	

@@ -31,26 +31,53 @@ public class ApiServices {
 		return "failure";
 	}
 	
-	public static Set<Song> getSongs(Api api) throws IOException, WebApiException {
+	public static Set<Song> getSongs(Api api) {
 		String userID = ApiServices.getUserID(api);
+		System.out.println(userID);
 		
 		UserPlaylistsRequest upr = 
 				api.getPlaylistsForUser(userID).build();
 		
 		Set<Song> toReturn = new HashSet<Song>();
 		
-		Page<SimplePlaylist> playlistsPage = upr.get();
+		Page<SimplePlaylist> playlistsPage = null;
+		try {
+			playlistsPage = upr.get();
+			for (SimplePlaylist s : playlistsPage.getItems()) {
+				System.out.println(s.getName());
+			}
+		} catch (IOException | WebApiException e1) {
+			System.out.println("Playlists request failed");
+			e1.printStackTrace();
+		}
+		
+		System.out.println(playlistsPage.getHref());
 		
 		for (SimplePlaylist playlist : playlistsPage.getItems()) {
 			String playlistID = playlist.getId();
+			System.out.println(playlistID);
 			PlaylistTracksRequest ptr = api.getPlaylistTracks(userID, playlistID).build();
-			Page<PlaylistTrack> trackPage = ptr.get();
-			List<PlaylistTrack> trackList  = trackPage.getItems();
 			
-			for (PlaylistTrack playlistTrack : trackList) {
-				Track track = playlistTrack.getTrack();
-				Song toAdd = new Song(track.getId(), track.getName());
-				toReturn.add(toAdd);
+			Page<PlaylistTrack> trackPage = null;
+			try {
+				trackPage = ptr.get();
+			} catch (IOException | WebApiException | IllegalArgumentException e) {
+				System.out.println("Playlists track request failed");
+				e.printStackTrace();
+			}
+			
+			if (trackPage != null) {
+				System.out.println("success");
+				List<PlaylistTrack> trackList  = trackPage.getItems();
+				
+				
+				for (PlaylistTrack playlistTrack : trackList) {
+					Track track = playlistTrack.getTrack();
+					Song toAdd = new Song(track.getId(), track.getName());
+					toReturn.add(toAdd);
+				}
+			} else {
+				System.out.println("trackpage null");
 			}
 		}
 		

@@ -1,5 +1,6 @@
 package com.hackteam.login;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 import javax.ws.rs.GET;
@@ -9,6 +10,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import com.wrapper.spotify.exceptions.WebApiException;
 
 @Path("/login")
 public class LoginResource {
@@ -31,7 +34,7 @@ public class LoginResource {
 			location = new java.net.URI("/" + code);
 			
 			return Response.temporaryRedirect(location).build();
-		} catch (URISyntaxException e) {
+		} catch (URISyntaxException | IOException | WebApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

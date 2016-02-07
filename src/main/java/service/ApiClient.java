@@ -14,9 +14,9 @@ public class ApiClient {
 	
 
 	/* Application details necessary to get an access token */
-    private final String clientId = "6b263ec6c75a48e796d1657f76e3e9d9";
-    private final String clientSecret = "04a2b4355a17405db356e94d24d3db04";
-    private final String redirectUri = "http://mywebsite-justinyoungtech.rhcloud.com/my-website/webapi/login/auth";
+    private final String clientId = "7ca26c9d789547ddba8680ac8142b724";
+    private final String clientSecret = "aeab62cfccc447aab49b8048d70cea0e";
+    private final String redirectUri = "http://localhost:8080/playlist/webapi/login/auth";
     
 	final Api api;
 	
