@@ -21,7 +21,7 @@ public class DBClient {
 	MongoDatabase db = mongoClient.getDatabase(uri.getDatabase());
 	
 	private Document encodeSong(Song s) {
-		return new Document("songid", s.getSongID())
+		return new Document("songname", s.getSongName())
 				.append("songid", s.getSongID());
 	}
 	
@@ -41,7 +41,7 @@ public class DBClient {
 		db.getCollection("users").insertOne(data);
 	}
 	
-	public ArrayList<String> makePlaylist() {
+	public ArrayList<Song> makePlaylist() {
 		
 		MongoCollection<Document> coll = db.getCollection("users");
 		MongoCursor<Document> cursor = coll.find().iterator();
@@ -53,23 +53,19 @@ public class DBClient {
 			ArrayList<Song> userSongs = new ArrayList<Song>();
 			List<Document> songList = (List<Document>)doc.get("songs");
 			for (Document d : songList) {
-				String songID = d.getString("songid");
-				//String songID = d.get("songid").toString();
-//				String name = d.get("songname").toString();
-				Song currSong = new Song(songID);
-				System.out.println(currSong.getSongID());
+				String name = d.get("songname").toString();
+				String songID = d.get("songid").toString();
+				Song currSong = new Song(songID, name);
 				userSongs.add(currSong);
 			}
-			if (userSongs.size() > 2) {
-				userList.add(new User(userID, userSongs));				
-			}
+			userList.add(new User(userID, userSongs));
 		}
 		
-		PlayList_Maker plm = new PlayList_Maker(userList, 0.45);
-		ArrayList<String> playlist = plm.generatePlaylist();
+		PlayList_Maker plm = new PlayList_Maker(userList, 0.7);
+		ArrayList<Song> playlist = plm.generatePlaylist();
 		
-		for (String str : playlist) {
-			System.out.println(str);
+		for (Song str : playlist) {
+			System.out.println(str.getSongName());
 		}
 		System.out.println(playlist.size());
 		return playlist;

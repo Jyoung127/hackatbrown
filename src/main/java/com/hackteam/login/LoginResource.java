@@ -31,7 +31,7 @@ public class LoginResource {
 		java.net.URI location = null;
 		try {
 			(new LoginService()).addSongs(code);
-			location = new java.net.URI("/playlist/confirmation/index.html");
+			location = new java.net.URI("/playlist/webapi/songs/songlist");
 			
 			return Response.seeOther(location).build();
 		} catch (URISyntaxException | IOException | WebApiException e) {

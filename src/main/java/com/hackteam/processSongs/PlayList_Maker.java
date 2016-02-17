@@ -15,50 +15,33 @@ public class PlayList_Maker {
 		this._countRatio = count_Ratio;
 	}
 	
-	private ArrayList<String> makeSongIDList(ArrayList<Song> songs) {
-		ArrayList<String> toReturn = new ArrayList<String>();
-		for (Song s : songs) {
-			System.out.println("here" + s.getSongID());
-			toReturn.add(s.getSongID());
-		}
-		return toReturn;
-	}
-	
-	public ArrayList<String> generatePlaylist() {
-		HashMap<String, Integer> universalList = new HashMap<String, Integer>();
-		ArrayList<String> finalPlaylist = new ArrayList<String>();
-		
+	public ArrayList<Song> generatePlaylist() {
+		HashMap<Song, Integer> universalList = new HashMap<Song, Integer>();
+		ArrayList<Song> finalPlaylist = new ArrayList<Song>();
 		
 		for (User user: _userList) {
-			ArrayList<String> songIDList = makeSongIDList(user.getSongList());
-			for (String songID : songIDList) {
-				System.out.println("there" + songID);
-				if (universalList.containsKey(songID)) {
-					int counter = universalList.get(songID);
-					universalList.put(songID, counter+1);
+			for (Song song : user.getSongList()) {
+				if (universalList.containsKey(song)) {
+					int counter = universalList.get(song);
+					universalList.put(song, counter+1);
 				} else {
-					universalList.put(songID, 1);
+					universalList.put(song, 1);
 				}
 			}
 		}
 		
-		for (String str: universalList.keySet()) {
-			double counter = universalList.get(str);
-			//System.out.println("counter of song "+song.getSongName()+"is: "+counter);
-			//System.out.println("% of song in playlist is: "+counter/_userSize);
+		for (Song song: universalList.keySet()) {
+			double counter = universalList.get(song);
+			System.out.println("counter of song "+song.getSongName()+"is: "+counter);
+			System.out.println("% of song in playlist is: "+counter/_userSize);
 			if ( (counter/_userSize) >= _countRatio ) {
-				System.out.println(String.format("song id here: %s", str));
-				if (str.length() == 22 && !str.contains(" ")){
-					finalPlaylist.add(str);
-				}
+				finalPlaylist.add(song);
 			}
 		}
 
-		for (String songid: finalPlaylist) {
-			System.out.print("final" + songid);
-		}
-		
-		
+//		for (String songid: finalPlaylist) {
+//			System.out.print(songid);
+//		}
 		
 		return finalPlaylist;
 		

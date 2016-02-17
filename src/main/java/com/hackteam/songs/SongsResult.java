@@ -11,15 +11,15 @@ import com.hackteam.processSongs.Song;
 public class SongsResult {
 
 	@XmlElement
-	Song[] songList;
+	ArrayList<Song> songList;
 	
 	public SongsResult() {}
 	
-	public SongsResult(Song[] songList) {
+	public SongsResult(ArrayList<Song> songList) {
 		this.songList = songList;
 	}
 	
-	public Song[] getSongList() {
+	public ArrayList<Song> getSongList() {
 		return this.songList;
 	}
 }

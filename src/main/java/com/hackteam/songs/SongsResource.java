@@ -12,8 +12,6 @@ public class SongsResource {
 	@Path("songlist")
 	@Produces(MediaType.APPLICATION_JSON)
 	public SongsResult getSongsList() {
-		SongsService service = new SongsService("");
-		service.generatePlaylist();
 		return null;
 	}
 }

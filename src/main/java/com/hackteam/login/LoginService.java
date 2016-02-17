@@ -11,12 +11,9 @@ import com.wrapper.spotify.exceptions.WebApiException;
 import database.DBClient;
 import service.ApiClient;
 import service.ApiServices;
-import service.PlaylistMaker;
 import service.UserAuthentication;
 
 public class LoginService {
-	
-	public static String uCode;
 	
 	public String getAuth() {
 		ApiClient client = new ApiClient();
@@ -26,7 +23,6 @@ public class LoginService {
 	public void addSongs(String userCode) throws IOException, WebApiException {
 		ApiClient client = new ApiClient();
 		Api api = client.getApi();
-		uCode = userCode;
 		api = UserAuthentication.getAccessToken(api, userCode);
 		
 		Set<Song> newSongs = null;
@@ -41,7 +37,5 @@ public class LoginService {
 		
 		DBClient dbc = new DBClient();
 		dbc.addToDB(newSongsList, userID);
-		ArrayList<String> playlist = dbc.makePlaylist();
-		PlaylistMaker.makePlaylist(api, playlist, userID);
 	}
 }

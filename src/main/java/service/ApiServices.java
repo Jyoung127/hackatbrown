@@ -19,8 +19,6 @@ import com.wrapper.spotify.models.User;
 
 public class ApiServices {
 	
-	public static String currID;
-	
 	public static String getUserID(Api api) {
 		CurrentUserRequest cur = api.getMe().build();
 		try {
@@ -36,7 +34,6 @@ public class ApiServices {
 	public static Set<Song> getSongs(Api api) {
 		String userID = ApiServices.getUserID(api);
 		System.out.println(userID);
-		currID = userID;
 		
 		UserPlaylistsRequest upr = 
 				api.getPlaylistsForUser(userID).build();
@@ -77,7 +74,7 @@ public class ApiServices {
 					
 					for (PlaylistTrack playlistTrack : trackList) {
 						Track track = playlistTrack.getTrack();
-						Song toAdd = new Song(track.getId());
+						Song toAdd = new Song(track.getId(), track.getName());
 						toReturn.add(toAdd);
 					}
 				} else {
